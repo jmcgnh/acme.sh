@@ -29,8 +29,7 @@ ESXi_deploy() {
 
 
   TIMESTAMP=`date --utc +%Y-%m-%d_%H:%M:%s`
-  
-    _info "backup old key"
+  _info "backup old key"
   BACKUPKEY=`ssh root@"$_cdomain" "/bin/cp -f /etc/vmware/ssl/rui.key /etc/vmware/ssl/rui.key_from_$TIMESTAMP"`
   _info "backup old cert"
   BACKUPCERT=`ssh root@"$_cdomain" "/bin/cp -f /etc/vmware/ssl/rui.crt /etc/vmware/ssl/rui.crt_from_$TIMESTAMP"`
@@ -49,11 +48,12 @@ ESXi_deploy() {
   MODESETKEY=`ssh root@"$_cdomain" "chmod 1400 /etc/vmware/ssl/rui.key"`
   MODESETCRT=`ssh root@"$_cdomain" "chmod 1644 /etc/vmware/ssl/rui.crt"`
   _info "restarting services"
-  RESTARTRESULT=`ssh root@"$_cdomain" "/sbin/services.sh restart"`
+  ## RESTARTRESULT=`ssh root@"$_cdomain" "/sbin/services.sh restart"`
+  ## Let us try just restarting hostd, since the general services restart leaves things broken
+  RESTARTRESULT=`ssh root@"$_cdomain" "/etc/init.d/hotd restart"`
   _debug "$RESTARTRESULT"
   # this script reports some errors, but seems to do whatever is necessary to make the cert effective
   # at this point, we don't care too much what result it gives
 
   return 0
 }
-
