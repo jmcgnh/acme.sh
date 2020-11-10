@@ -50,7 +50,7 @@ ESXi_deploy() {
   _info "restarting services"
   ## RESTARTRESULT=`ssh root@"$_cdomain" "/sbin/services.sh restart"`
   ## Let us try just restarting hostd, since the general services restart leaves things broken
-  RESTARTRESULT=`ssh root@"$_cdomain" "/etc/init.d/hotd restart"`
+  RESTARTRESULT=`ssh root@"$_cdomain" "/etc/init.d/hostd restart"`
   _debug "$RESTARTRESULT"
   # this script reports some errors, but seems to do whatever is necessary to make the cert effective
   # at this point, we don't care too much what result it gives
